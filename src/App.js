@@ -1,9 +1,8 @@
 import React, { useState } from "react";
-import { act } from "react-dom/test-utils";
 
 function App() {
   const [minutes, setMinutes] = useState(0);
-  const [active, setActive] = useState(false);
+  const [active, setActive] = useState(true);
 
   const reset = () => {
     setMinutes(0);
@@ -15,6 +14,7 @@ function App() {
 
   const changeActive = () => {
     setActive(!active);
+    reset();
   };
 
   return (
@@ -24,7 +24,7 @@ function App() {
         Minutes{" "}
         <input
           placeholder="Minutes"
-          value={minutes}
+          value={active ? minutes : Math.floor(minutes * 60)} // active = true 참일 때 분이 나오고 거짓이면 시간이 나온다.
           type="number"
           onChange={onChange}
           disabled={!active}
@@ -34,13 +34,13 @@ function App() {
           <input
             type="number"
             placeholder="Hours"
-            value={Math.floor(minutes / 60)}
+            value={active ? Math.floor(minutes / 60) : minutes}
             disabled={active}
             onChange={onChange}
           />
         </div>
         <button onClick={reset}>reset</button>
-        <button onClick={changeActive}>toggle</button>
+        <button onClick={changeActive}>active toggle</button>
       </div>
     </div>
   );
